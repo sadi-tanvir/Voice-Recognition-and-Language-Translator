@@ -5,16 +5,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Speech Recognition</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
     <div class="container">
-        <ul class="translator_property">
-            <li>
-                <select name="" id=""></select>
-            </li>
-        </ul>
+        <div class="translator_property">
+            <ul class="nav_items">
+                <li>
+                    <select>
+                        <option value="en-GB">English</option>
+                        <option value="en-GB">Bengali</option>
+                        <option value="en-GB">Hindi</option>
+                    </select>
+                </li>
+                <li class="bx bx-transfer"></li>
+                <li>
+                    <select>
+                        <option value="en-GB">Bengali</option>
+                        <option value="en-GB">Hindi</option>
+                        <option value="en-GB">English</option>
+                    </select>
+                </li>
+            </ul>
+            <div class="write_box">
+                <div class="property_form">
+                    <textarea maxlength="7000" class="formText" cols="30" rows="10"
+                        placeholder="Write here..."></textarea>
+                    <div class="icons">
+                        <span class="bx bx-volume-full"></span>
+                        <div class="code_length">0/7,000</div>
+                    </div>
+                </div>
+                <div class="property_trans">
+                    <textarea maxlength="7000" class="toTranslate" cols="30" rows="10"
+                        placeholder="Write here..."></textarea>
+                    <div class="icons">
+                        <span class="bx bx-volume-full"></span>
+                        <span class="bx bx-copy"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 
