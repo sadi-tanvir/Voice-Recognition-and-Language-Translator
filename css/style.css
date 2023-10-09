@@ -148,3 +148,30 @@ h1 {
     font-size: 1.8rem;
     color: var(--deepGray);
 }
+
+.copy_popup {
+    padding: .5rem 7rem;
+    background-color: var(--skyBlue);
+    font-size: 2rem;
+    border-radius: .5rem;
+    color: var(--white);
+    text-transform: uppercase;
+    position: absolute;
+    left: 4rem;
+    bottom: -4rem;
+    transform: scale(0.2);
+    transition: 1s all ease ease-in-out;
+}
+
+.copy_popup.show {
+    transform: scale(1);
+    bottom: 4rem;
+    transition: 1s all ease ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bxs-check-circle {
+    margin-left: .8rem;
+}

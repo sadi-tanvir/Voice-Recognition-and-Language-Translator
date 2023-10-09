@@ -1,8 +1,10 @@
 let langOptions = document.querySelectorAll("select");
 let fromText = document.querySelector(".fromText");
-let toTranslate = document.querySelector('.toTranslate');
+let translatedText = document.querySelector('.toTranslate');
 let from_voice = document.querySelector(".from_voice");
 let to_voice = document.querySelector(".to_voice");
+let copyText = document.querySelector(".copyText");
+let copy_popup = document.querySelector('.copy_popup');
 
 langOptions.forEach((selectElem, index) => {
     for (const countryCode in language) {
@@ -29,7 +31,7 @@ fromText.addEventListener("input", () => {
 
     fetch(translateLink)
         .then(translate => translate.json()).then(data => {
-            toTranslate.value = data.responseData.translatedText;
+            translatedText.value = data.responseData.translatedText;
         }).catch((error) => {
             console.error(error);
         })
@@ -47,7 +49,26 @@ from_voice.addEventListener('click', () => {
 
 to_voice.addEventListener("click", () => {
     let toTalk;
-    toTalk = new SpeechSynthesisUtterance(toTranslate.value);
+    toTalk = new SpeechSynthesisUtterance(translatedText.value);
     toTalk.lang = langOptions[1][1].value;
     speechSynthesis.speak(toTalk);
+});
+
+
+// copy to clipboard
+copyText.addEventListener('click', () => {
+    navigator.clipboard.writeText(translatedText.value);
+
+    if (copy_popup.classList.contains("show")) {
+        copy_popup.classList.remove("show")
+        setTimeout(() => {
+            copy_popup.classList.add("show")
+        }, 100)
+    } else {
+        copy_popup.classList.add("show")
+    }
+
+    setTimeout(() => {
+        copy_popup.classList.remove("show")
+    }, 3000)
 });
