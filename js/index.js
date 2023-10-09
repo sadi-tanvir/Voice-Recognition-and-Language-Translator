@@ -1,5 +1,6 @@
 let langOptions = document.querySelectorAll("select");
 let fromText = document.querySelector(".fromText");
+let word_length = document.querySelector(".word_length");
 let translatedText = document.querySelector('.toTranslate');
 let from_voice = document.querySelector(".from_voice");
 let to_voice = document.querySelector(".to_voice");
@@ -26,6 +27,8 @@ fromText.addEventListener("input", () => {
     let content = fromText?.value;
     fromContent = langOptions[0].value;
     transContent = langOptions[1].value;
+
+    word_length.innerText = `${content.length}/7,000`;
 
     let translateLink = `https://api.mymemory.translated.net/get?q=${content}!&langpair=${fromContent}|${transContent}`;
 
