@@ -1,6 +1,9 @@
 let langOptions = document.querySelectorAll("select");
 let fromText = document.querySelector(".fromText");
-let translateText = document.querySelector('.toTranslate')
+let toTranslate = document.querySelector('.toTranslate');
+let from_voice = document.querySelector(".from_voice");
+let to_voice = document.querySelector(".to_voice");
+
 langOptions.forEach((selectElem, index) => {
     for (const countryCode in language) {
         let selected;
@@ -16,7 +19,8 @@ langOptions.forEach((selectElem, index) => {
 });
 
 
-fromText?.addEventListener("input", () => {
+// text translator
+fromText.addEventListener("input", () => {
     let content = fromText?.value;
     fromContent = langOptions[0].value;
     transContent = langOptions[1].value;
@@ -24,9 +28,26 @@ fromText?.addEventListener("input", () => {
     let translateLink = `https://api.mymemory.translated.net/get?q=${content}!&langpair=${fromContent}|${transContent}`;
 
     fetch(translateLink)
-    .then(translate => translate.json()).then(data => {
-        translateText.value = data.responseData.translatedText;
-    }).catch((error) => {
-        console.error(error);
-    })
+        .then(translate => translate.json()).then(data => {
+            toTranslate.value = data.responseData.translatedText;
+        }).catch((error) => {
+            console.error(error);
+        })
+});
+
+
+
+// voice translator
+from_voice.addEventListener('click', () => {
+    let fromTalk;
+    fromTalk = new SpeechSynthesisUtterance(fromText.value);
+    fromTalk.lang = langOptions[0].value;
+    speechSynthesis.speak(fromTalk);
+});
+
+to_voice.addEventListener("click", () => {
+    let toTalk;
+    toTalk = new SpeechSynthesisUtterance(toTranslate.value);
+    toTalk.lang = langOptions[1][1].value;
+    speechSynthesis.speak(toTalk);
 });
