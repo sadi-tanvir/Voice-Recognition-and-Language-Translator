@@ -6,9 +6,10 @@ let from_voice = document.querySelector(".from_voice");
 let to_voice = document.querySelector(".to_voice");
 let copyText = document.querySelector(".copyText");
 let copy_popup = document.querySelector('.copy_popup');
+let swap_lang_option = document.querySelector('.swap_lang_option');
 
 langOptions.forEach((selectElem, index) => {
-    for (const countryCode in language) {
+    for (const countryCode in languages) {
         let selected;
         if (index === 0 && countryCode === 'en-GB') {
             selected = "selected";
@@ -16,7 +17,7 @@ langOptions.forEach((selectElem, index) => {
             selected = "selected";
         };
 
-        let option = `<option value="${countryCode}" ${selected}>${language[countryCode]}</option>`;
+        let option = `<option value="${countryCode}" ${selected}>${languages[countryCode]}</option>`;
         selectElem.insertAdjacentHTML('beforeend', option)
     };
 });
@@ -28,16 +29,19 @@ fromText.addEventListener("input", () => {
     fromContent = langOptions[0].value;
     transContent = langOptions[1].value;
 
-    word_length.innerText = `${content.length}/7,000`;
+    if (content.length <= 500) {
+        word_length.innerText = `${content.length}/500`;
+        let translateLink = `https://api.mymemory.translated.net/get?q=${content}!&langpair=${fromContent}|${transContent}`;
 
-    let translateLink = `https://api.mymemory.translated.net/get?q=${content}!&langpair=${fromContent}|${transContent}`;
-
-    fetch(translateLink)
-        .then(translate => translate.json()).then(data => {
-            translatedText.value = data.responseData.translatedText;
-        }).catch((error) => {
-            console.error(error);
-        })
+        fetch(translateLink)
+            .then(translate => translate.json()).then(data => {
+                translatedText.value = data.responseData.translatedText;
+            }).catch((error) => {
+                console.error(error);
+            });
+    } else {
+        window.alert("good")
+    };
 });
 
 
@@ -75,3 +79,37 @@ copyText.addEventListener('click', () => {
         copy_popup.classList.remove("show")
     }, 3000)
 });
+
+
+
+// swap language selection and text
+swap_lang_option.addEventListener('click', () => {
+    let fromCurrentLang = langOptions[0];
+    let toCurrentLang = langOptions[1];
+    let tempFromLangVal = fromCurrentLang.value;
+    let tempFromLangInnerText = fromCurrentLang[fromCurrentLang.selectedIndex].innerText;
+    let tempFromTextAreaVal = fromText.value;
+
+    // swap textarea values
+    fromText.value = translatedText.value;
+    translatedText.value = tempFromTextAreaVal;
+
+    // swap language options
+    for (let i = 0; i < fromCurrentLang.options.length; i++) {
+        if (fromCurrentLang.options[i].value == toCurrentLang.value) {
+            fromCurrentLang[fromCurrentLang.selectedIndex].selected = false;
+            fromCurrentLang.options[i].selected = true;
+            fromCurrentLang.options[i].innerText = toCurrentLang[toCurrentLang.selectedIndex].innerText;
+            break;
+        };
+    };
+
+    for (let i = 0; i < toCurrentLang.options.length; i++) {
+        if (toCurrentLang.options[i].value == tempFromLangVal) {
+            toCurrentLang[toCurrentLang.selectedIndex].selected = false;
+            toCurrentLang.options[i].selected = true;
+            toCurrentLang.options[i].innerText = tempFromLangInnerText;
+            break;
+        };
+    };
+})

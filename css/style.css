@@ -160,13 +160,13 @@ h1 {
     left: 4rem;
     bottom: -4rem;
     transform: scale(0.2);
-    transition: 1s all ease ease-in-out;
+    transition: .1s all ease-in-out;
 }
 
 .copy_popup.show {
     transform: scale(1);
     bottom: 4rem;
-    transition: 1s all ease ease-in-out;
+    transition: .1s all ease-in-out;
     display: flex;
     justify-content: center;
     align-items: center;

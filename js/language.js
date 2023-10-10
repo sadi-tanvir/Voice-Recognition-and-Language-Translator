@@ -1,4 +1,4 @@
-const language = {
+const languages = {
     "en-GB": "English",
     "bn-IN": "Bengali",
     "hi-IN": "Hindi",
