@@ -144,6 +144,23 @@ h1 {
     color: var(--skyBlue);
 }
 
+.bx.voice_microphone.active {
+    width: 3.5rem;
+    height: 3.5rem;
+    background-color: rgb(228, 112, 112, .3);
+    text-align: center;
+    line-height: 3.5rem;
+    font-size: 1.8rem;
+    color: red;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+}
+
+.from_voice {
+    margin-left: .8rem;
+}
+
 .word_length {
     font-size: 1.8rem;
     color: var(--deepGray);

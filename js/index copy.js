@@ -9,8 +9,6 @@ let copy_popup = document.querySelector('.copy_popup');
 let swap_lang_option = document.querySelector('.swap_lang_option');
 let voice_microphone = document.querySelector(".voice_microphone")
 
-
-
 langOptions.forEach((selectElem, index) => {
     for (const countryCode in languages) {
         let selected;
@@ -25,17 +23,28 @@ langOptions.forEach((selectElem, index) => {
     };
 });
 
+// voice recognition
+voice_microphone.addEventListener("click", () => {
+    voice_microphone.classList.toggle("active");
+    let recognition = new webkitSpeechRecognition();
+    recognition.lang = 'en-GB';
+    recognition.onresult = function (event) {
+        console.log(event);
+        fromText.value = event.results[0][0].transcript;
+    };
 
+    recognition.start();
+});
 
-
-// translate text
-function translate(text) {
+// text translator
+fromText.addEventListener("input", () => {
+    let content = fromText?.value;
     fromContent = langOptions[0].value;
     transContent = langOptions[1].value;
 
-    if (text.length <= 500) {
-        word_length.innerText = `${text.length}/500`;
-        let translateLink = `https://api.mymemory.translated.net/get?q=${text}!&langpair=${fromContent}|${transContent}`;
+    if (content.length <= 500) {
+        word_length.innerText = `${content.length}/500`;
+        let translateLink = `https://api.mymemory.translated.net/get?q=${content}!&langpair=${fromContent}|${transContent}`;
 
         fetch(translateLink)
             .then(translate => translate.json()).then(data => {
@@ -46,47 +55,11 @@ function translate(text) {
     } else {
         window.alert("limit exceed")
     };
-}
-
-
-
-
-// voice recognition
-voice_microphone.addEventListener("click", () => {
-    let startSound = new Audio("audio/start.wav");
-    let endSound = new Audio("audio/end.wav");
-    
-    let fromCurrentLang = langOptions[0];
-    let recognition = new webkitSpeechRecognition();
-    recognition.lang = fromCurrentLang.value;
-
-    recognition.onstart = function () {
-        voice_microphone.classList.add("active");
-        startSound.play()
-    };
-
-    recognition.onresult = function (event) {
-        console.log(event);
-        fromText.value = event.results[0][0].transcript;
-        translate(fromText.value)
-    };
-
-    recognition.start();
-
-    recognition.onend = function () {
-        voice_microphone.classList.remove("active");
-        endSound.play();
-    };
 });
 
 
 
 
-// take input for translate
-fromText.addEventListener("input", () => {
-    let content = fromText?.value;
-    translate(content);
-});
 
 
 
@@ -107,8 +80,6 @@ to_voice.addEventListener("click", () => {
 });
 
 
-
-
 // copy to clipboard
 copyText.addEventListener('click', () => {
     navigator.clipboard.writeText(translatedText.value);
@@ -126,7 +97,6 @@ copyText.addEventListener('click', () => {
         copy_popup.classList.remove("show")
     }, 3000)
 });
-
 
 
 
@@ -160,4 +130,10 @@ swap_lang_option.addEventListener('click', () => {
             break;
         };
     };
-});
+})
+
+
+
+// addEventListener("",() => {
+//     console.log('running');
+// })
