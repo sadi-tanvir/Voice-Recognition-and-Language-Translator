@@ -102,7 +102,7 @@ from_voice.addEventListener('click', () => {
 to_voice.addEventListener("click", () => {
     let toTalk;
     toTalk = new SpeechSynthesisUtterance(translatedText.value);
-    toTalk.lang = langOptions[1][1].value;
+    toTalk.lang = langOptions[1].value;
     speechSynthesis.speak(toTalk);
 });
 
